@@ -29,7 +29,7 @@ export const useAudioStore = create<AudioState>((set, get) => ({
   ])),
   setIsPlaying: (isPlaying: boolean) => set({ isPlaying }),
   setVolume: (volume: number) => {
-    if (!(volume > -60 && volume < -10)) return;
+    if (!(volume >= -60 && volume <= -10)) return;
 
     set({ volume });
     get().noiseMap.forEach(n => {
