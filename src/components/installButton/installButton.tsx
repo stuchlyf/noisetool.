@@ -1,7 +1,7 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
 import { Button } from "react-daisyui";
-import { BeforeInstallPromptEvent } from "@/types/BeforeInstallPromptEvent";
+import { type BeforeInstallPromptEvent } from "@/types/BeforeInstallPromptEvent";
 
 export const InstallButton: React.FC = () => {
   const [beforeInstallPrompt, setBeforeInstallPrompt] = useState<BeforeInstallPromptEvent>();
@@ -12,7 +12,6 @@ export const InstallButton: React.FC = () => {
         const event = e as BeforeInstallPromptEvent;
         setBeforeInstallPrompt(event);
       }
-
     })
   }, []);
 
