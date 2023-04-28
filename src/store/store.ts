@@ -18,10 +18,7 @@ const noiseFactory = (color: Noise) => {
     case "pink":
     case "brown":
       return new Tone.Noise(color).toDestination();
-    case "red": // since red and brown are the same noise type
-      return new Tone.Noise('brown').toDestination();
     case "dark-brown":
-    case "dark-red":
       const noise = new Tone.Noise("brown");
       noise.set({ volume: -27 });
 
