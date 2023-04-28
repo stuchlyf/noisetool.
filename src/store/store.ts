@@ -35,25 +35,23 @@ const noiseFactory = (color: Noise) => {
         rolloff: -48,
       });
 
-      return noise
-        .chain(
-          lpFilter,
-          hpFilter,
-          Tone.Destination
-        )
-        .start();
+      return noise.chain(lpFilter, hpFilter, Tone.Destination).start();
   }
 };
-
 
 export const useAudioStore = create<AudioState>((set, get) => ({
   isPlaying: false,
   volume: -40,
   noiseMap: Object.freeze(
-    new Map<Noise, Tone.Noise>(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      NOISES.map((color) => [color, noiseFactory(color)!.set({volume: -40})])
-    )
+    typeof window === "undefined"
+      ? new Map<Noise, Tone.Noise>()
+      : new Map<Noise, Tone.Noise>(
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          NOISES.map((color) => [
+            color,
+            noiseFactory(color)!.set({ volume: -40 }),
+          ])
+        )
   ),
   setIsPlaying: (isPlaying: boolean) => set({ isPlaying }),
   setVolume: (volume: number) => {
