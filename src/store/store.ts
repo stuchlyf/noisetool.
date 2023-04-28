@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { type Noise } from "@/lib/noise/noise";
+import { type Noise, NOISES } from "@/lib/noise/noise";
 import * as Tone from "tone";
 
 export type AudioState = {
@@ -10,30 +10,61 @@ export type AudioState = {
   setVolume: (volume: number) => void;
 };
 
-const noiseFactory = (noise: Noise) => {
+const noiseFactory = (color: Noise) => {
   if (typeof window === "undefined") return;
 
-  return new Tone.Noise(noise).set({volume: -40, }).toDestination();
-}
+  switch (color) {
+    case "white":
+    case "pink":
+    case "brown":
+      return new Tone.Noise(color).toDestination();
+    case "red": // since red and brown are the same noise type
+      return new Tone.Noise('brown').toDestination();
+    case "dark-brown":
+    case "dark-red":
+      const noise = new Tone.Noise("brown");
+      noise.set({ volume: -27 });
+
+      // Create a filter object and set its properties
+      const lpFilter = new Tone.Filter({
+        type: "lowpass",
+        frequency: 420,
+        rolloff: -12,
+      });
+
+      const hpFilter = new Tone.Filter({
+        type: "highpass",
+        frequency: 80,
+        rolloff: -48,
+      });
+
+      return noise
+        .chain(
+          lpFilter,
+          hpFilter,
+          Tone.Destination
+        )
+        .start();
+  }
+};
+
 
 export const useAudioStore = create<AudioState>((set, get) => ({
   isPlaying: false,
   volume: -40,
-  noiseMap: Object.freeze(new Map([
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    ["white" as const, noiseFactory("white")!],
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    ["brown" as const, noiseFactory("brown")!],
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    ["pink" as const, noiseFactory("pink")!],
-  ])),
+  noiseMap: Object.freeze(
+    new Map<Noise, Tone.Noise>(
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      NOISES.map((color) => [color, noiseFactory(color)!.set({volume: -40})])
+    )
+  ),
   setIsPlaying: (isPlaying: boolean) => set({ isPlaying }),
   setVolume: (volume: number) => {
     if (!(volume > -60 && volume < -10)) return;
 
     set({ volume });
-    get().noiseMap.forEach(n => {
+    get().noiseMap.forEach((n) => {
       n.volume.value = volume;
     });
-  }
+  },
 }));

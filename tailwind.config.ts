@@ -13,6 +13,7 @@ export default {
         'white-gradient': 'linear-gradient(180deg, #FFFFFF 0%, rgba(205, 205, 205, 0.88) 55.21%, rgba(205, 205, 205, 0.58) 100%)',
         'green-gradient': 'linear-gradient(180deg, #39FFA0 0%, #148F54 75.52%, #066738 100%)',
         'pink-gradient': 'linear-gradient(180deg, #FDAEFF 0%, #FE73C7 66.15%, #FF39D4 100%)',
+        'dark-brown-gradient': 'linear-gradient(180deg, #612D08 0%, #432108 56.25%, #291709 100%)',
         'wave-background': 'url("../../public/static/images/background.svg")'
       },
       backgroundPosition: {

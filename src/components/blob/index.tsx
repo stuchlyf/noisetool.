@@ -11,6 +11,7 @@ const blobVariants = cva(
         green: "bg-green-gradient",
         pink: "bg-pink-gradient",
         white: "bg-white-gradient",
+        'dark-brown': "bg-dark-brown-gradient",
       },
       active: {
         false: "opacity-50",
