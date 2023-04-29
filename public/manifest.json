@@ -3,7 +3,7 @@
   "short_name": "noisetool.",
   "theme_color": "#8D47E7",
   "background_color": "#3D4451",
-  "display": "minimal-ui",
+  "display": "standalone",
   "orientation": "",
   "scope": "/",
   "start_url": "/",
