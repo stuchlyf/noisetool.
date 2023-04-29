@@ -1,13 +1,11 @@
 "use client";
 import React, {
   type ChangeEventHandler,
-  type FormEventHandler,
-  type TouchEventHandler,
   useCallback,
   useEffect,
-  useState,
+  useState
 } from "react";
-import { Button, Navbar, Range } from "react-daisyui";
+import { Button, Navbar, Range, Tooltip } from "react-daisyui";
 import { IoVolumeHighOutline, IoVolumeMuteOutline } from "react-icons/io5";
 import * as Tone from "tone";
 import { useAudioStore } from "@/store/store";
@@ -43,37 +41,46 @@ export const Toolbar: React.FC<{ volumeSsr: number | undefined }> = ({
     [setVolume]
   );
 
-  const handleMuteToggleClick = useCallback<
-    FormEventHandler & TouchEventHandler
-  >(() => {
-    if (Tone.getContext().state !== "running") {
-      try {
-        unmute(Tone.getContext().rawContext as AudioContext, true);
-      } catch (e) {
-        console.error(
-          "There was an error while trying to start the audio context:",
-          e
-        );
-      }
-    }
+  const handleMuteToggleClick = useCallback(() => {
+    if (Tone.getContext().state !== "running")
+      unmute(Tone.getContext().rawContext as AudioContext, true);
+
     setMute((prev) => !prev && Tone.getContext().state === "running");
   }, []);
+
+  useEffect(() => {
+    const eventHandler = (e: KeyboardEventInit) => {
+      switch (e.key) {
+        case "m":
+        case "AudioVolumeMute":
+          handleMuteToggleClick();
+          return;
+      }
+    }
+
+    document.addEventListener("keydown", eventHandler);
+    return () => {
+      document.removeEventListener("keydown", eventHandler);
+    }
+  }, [handleMuteToggleClick]);
 
   return (
     <Navbar
       className={"rounded-box flex w-full gap-4 bg-base-100 px-8 shadow-xl"}
     >
-      <Button shape={"square"} color={"primary"} size={"sm"}>
-        <label className="swap">
-          <input
-            type="checkbox"
-            checked={mute}
-            onChange={handleMuteToggleClick}
-          />
-          <IoVolumeMuteOutline className={"swap-on fill-current text-xl"} />
-          <IoVolumeHighOutline className={"swap-off fill-current text-xl"} />
-        </label>
-      </Button>
+        <Button shape={"square"} color={"primary"} size={"sm"}>
+          <Tooltip message={`${mute ? 'unmute' : 'mute'} (m)`}>
+            <label className="swap">
+              <input
+                type="checkbox"
+                checked={mute}
+                onChange={handleMuteToggleClick}
+              />
+              <IoVolumeMuteOutline className={"swap-on fill-current text-xl"} />
+              <IoVolumeHighOutline className={"swap-off fill-current text-xl"} />
+            </label>
+          </Tooltip>
+        </Button>
       <Range
         color={"primary"}
         onChange={handleVolumeChange}
