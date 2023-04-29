@@ -1,3 +1,4 @@
+"use client";
 import { create } from "zustand";
 import { type Noise } from "@/lib/noise/noise";
 import * as Tone from "tone";
@@ -42,24 +43,40 @@ const noiseFactory = (color: Noise) => {
   }
 };
 
+const parseCookie = (cookie: string): [string, string][] => {
+  return cookie.split(";").map((cookie) => {
+    const [key, ...value] = cookie.split("=");
+    return [key!.trim(), value.join("=")];
+  });
+};
 
-export const useAudioStore = create<AudioState>((set, get) => ({
-  isPlaying: false,
-  volume: -40,
-  noiseMap: typeof window === 'undefined' ? {} as NoiseMap : {
-    white: noiseFactory("white").set({ volume: -40 }),
-    pink: noiseFactory("pink").set({ volume: -40 }),
-    brown: noiseFactory("brown").set({ volume: -40 }),
-    "dark-brown": noiseFactory("dark-brown").set({ volume: -40 }),
-  },
-  setIsPlaying: (isPlaying: boolean) => set({ isPlaying }),
-  setVolume: (volume: number) => {
-    if (!(volume >= -60 && volume <= -10)) return;
+export const useAudioStore = create<AudioState>((set, get) => {
+  const cookies = parseCookie(document.cookie);
+  const cookie = cookies.find(([key]) => key === "volume");
 
-    set({ volume });
-    const noiseMap = get().noiseMap;
-    Object.keys(noiseMap).forEach((color) => {
-      noiseMap[color].volume.value = volume;
-    });
-  },
-}));
+  const volume = cookie && cookie[1] ? parseInt(cookie[1]) : -40;
+
+  return {
+    isPlaying: false,
+    volume,
+    noiseMap:
+      typeof window === "undefined"
+        ? ({} as NoiseMap)
+        : {
+            white: noiseFactory("white").set({ volume }),
+            pink: noiseFactory("pink").set({ volume }),
+            brown: noiseFactory("brown").set({ volume }),
+            "dark-brown": noiseFactory("dark-brown").set({ volume }),
+          },
+    setIsPlaying: (isPlaying: boolean) => set({ isPlaying }),
+    setVolume: (volume: number) => {
+      if (!(volume >= -60 && volume <= -10)) return;
+
+      set({ volume });
+      const noiseMap = get().noiseMap;
+      Object.keys(noiseMap).forEach((color) => {
+        noiseMap[color].volume.value = volume;
+      });
+    },
+  };
+});
