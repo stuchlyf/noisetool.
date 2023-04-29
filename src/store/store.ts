@@ -2,10 +2,12 @@ import { create } from "zustand";
 import { type Noise } from "@/lib/noise/noise";
 import * as Tone from "tone";
 
+export type NoiseMap = Readonly<Record<Noise, Tone.Noise>>;
+
 export type AudioState = {
   isPlaying: boolean;
   setIsPlaying: (isPlaying: boolean) => void;
-  noiseMap: Readonly<Record<Noise, Tone.Noise>>;
+  noiseMap: NoiseMap;
   volume: number;
   setVolume: (volume: number) => void;
 };
@@ -44,7 +46,7 @@ const noiseFactory = (color: Noise) => {
 export const useAudioStore = create<AudioState>((set, get) => ({
   isPlaying: false,
   volume: -40,
-  noiseMap: {
+  noiseMap: typeof window === 'undefined' ? {} as NoiseMap : {
     white: noiseFactory("white").set({ volume: -40 }),
     pink: noiseFactory("pink").set({ volume: -40 }),
     brown: noiseFactory("brown").set({ volume: -40 }),
