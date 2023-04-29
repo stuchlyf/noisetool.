@@ -3,7 +3,7 @@ import React, {
   type ChangeEventHandler,
   useCallback,
   useEffect,
-  useState
+  useState,
 } from "react";
 import { Button, Navbar, Range, Tooltip } from "react-daisyui";
 import { IoVolumeHighOutline, IoVolumeMuteOutline } from "react-icons/io5";
@@ -31,7 +31,10 @@ export const Toolbar: React.FC<{ volumeSsr: number | undefined }> = ({
   }, [mute]);
 
   useEffect(() => {
-    setCookie("volume", _vol, { path: "/", expires: new Date(Date.now() + 10 * 365 * 24 * 60 * 60) });
+    setCookie("volume", _vol, {
+      path: "/",
+      expires: new Date(Date.now() + 10 * 365 * 24 * 60 * 60),
+    });
   }, [_vol, setCookie]);
 
   const handleVolumeChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
@@ -56,31 +59,31 @@ export const Toolbar: React.FC<{ volumeSsr: number | undefined }> = ({
           handleMuteToggleClick();
           return;
       }
-    }
+    };
 
     document.addEventListener("keydown", eventHandler);
     return () => {
       document.removeEventListener("keydown", eventHandler);
-    }
+    };
   }, [handleMuteToggleClick]);
 
   return (
     <Navbar
       className={"rounded-box flex w-full gap-4 bg-base-100 px-8 shadow-xl"}
     >
-        <Button shape={"square"} color={"primary"} size={"sm"}>
-          <Tooltip message={`${mute ? 'unmute' : 'mute'} (m)`}>
-            <label className="swap">
-              <input
-                type="checkbox"
-                checked={mute}
-                onChange={handleMuteToggleClick}
-              />
-              <IoVolumeMuteOutline className={"swap-on fill-current text-xl"} />
-              <IoVolumeHighOutline className={"swap-off fill-current text-xl"} />
-            </label>
-          </Tooltip>
-        </Button>
+      <Button shape={"square"} color={"primary"} size={"sm"}>
+        <Tooltip message={`${mute ? "unmute" : "mute"} (m)`}>
+          <label className="swap">
+            <input
+              type="checkbox"
+              checked={mute}
+              onChange={handleMuteToggleClick}
+            />
+            <IoVolumeMuteOutline className={"swap-on fill-current text-xl"} />
+            <IoVolumeHighOutline className={"swap-off fill-current text-xl"} />
+          </label>
+        </Tooltip>
+      </Button>
       <Range
         color={"primary"}
         onChange={handleVolumeChange}
