@@ -1,17 +1,18 @@
 import { create } from "zustand";
-import { type Noise, NOISES } from "@/lib/noise/noise";
+import { type Noise } from "@/lib/noise/noise";
 import * as Tone from "tone";
 
 export type AudioState = {
   isPlaying: boolean;
   setIsPlaying: (isPlaying: boolean) => void;
-  noiseMap: ReadonlyMap<Noise, Tone.Noise>;
+  noiseMap: Readonly<Record<Noise, Tone.Noise>>;
   volume: number;
   setVolume: (volume: number) => void;
 };
 
 const noiseFactory = (color: Noise) => {
-  if (typeof window === "undefined") return;
+  // Needs to happen for this to work in SSR
+  if (typeof window === "undefined") return undefined as unknown as Tone.Noise;
 
   switch (color) {
     case "white":
@@ -39,27 +40,24 @@ const noiseFactory = (color: Noise) => {
   }
 };
 
+
 export const useAudioStore = create<AudioState>((set, get) => ({
   isPlaying: false,
   volume: -40,
-  noiseMap: Object.freeze(
-    typeof window === "undefined"
-      ? new Map<Noise, Tone.Noise>()
-      : new Map<Noise, Tone.Noise>(
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          NOISES.map((color) => [
-            color,
-            noiseFactory(color)!.set({ volume: -40 }),
-          ])
-        )
-  ),
+  noiseMap: {
+    white: noiseFactory("white").set({ volume: -40 }),
+    pink: noiseFactory("pink").set({ volume: -40 }),
+    brown: noiseFactory("brown").set({ volume: -40 }),
+    "dark-brown": noiseFactory("dark-brown").set({ volume: -40 }),
+  },
   setIsPlaying: (isPlaying: boolean) => set({ isPlaying }),
   setVolume: (volume: number) => {
     if (!(volume >= -60 && volume <= -10)) return;
 
     set({ volume });
-    get().noiseMap.forEach((n) => {
-      n.volume.value = volume;
+    const noiseMap = get().noiseMap;
+    Object.keys(noiseMap).forEach((color) => {
+      noiseMap[color].volume.value = volume;
     });
   },
 }));

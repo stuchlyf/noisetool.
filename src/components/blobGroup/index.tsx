@@ -12,15 +12,14 @@ export const BlobGroup: React.FC = () => {
 
   useEffect(() => {
     if (!noiseType) {
-      noises.forEach((noise) => {
-        noise.stop();
+      Object.keys(noises).forEach((color) => {
+        noises[color].stop();
       });
 
       return;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const noise = noises.get(noiseType)!;
+    const noise = noises[noiseType];
     noise.start();
 
     return () => {
