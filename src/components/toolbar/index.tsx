@@ -31,7 +31,7 @@ export const Toolbar: React.FC<{ volumeSsr: number | undefined }> = ({
   }, [mute]);
 
   useEffect(() => {
-    setCookie("volume", _vol, { path: "/" });
+    setCookie("volume", _vol, { path: "/", expires: new Date(Date.now() + 10 * 365 * 24 * 60 * 60) });
   }, [_vol, setCookie]);
 
   const handleVolumeChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
