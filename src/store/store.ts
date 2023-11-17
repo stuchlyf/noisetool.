@@ -40,6 +40,24 @@ const noiseFactory = (color: Noise) => {
       });
 
       return noise.chain(lpFilter, hpFilter, Tone.Destination).start();
+    case "black":
+      const blackNoise = new Tone.Noise("brown");
+      blackNoise.set({volume: -27});
+
+      // Create a filter object and set its properties
+      const blackNoiseLpFilter = new Tone.Filter({
+        type: "lowpass",
+        frequency: 100,
+        rolloff: -24,
+      });
+
+      const blackNoiseHpFilter = new Tone.Filter({
+        type: "highpass",
+        frequency: 0,
+        rolloff: -48,
+      });
+
+      return blackNoise.chain(blackNoiseLpFilter, blackNoiseHpFilter, Tone.Destination).start();
   }
 };
 
@@ -67,6 +85,7 @@ export const useAudioStore = create<AudioState>((set, get) => {
             pink: noiseFactory("pink").set({ volume }),
             brown: noiseFactory("brown").set({ volume }),
             "dark-brown": noiseFactory("dark-brown").set({ volume }),
+            black: noiseFactory("black").set({ volume })
           },
     setIsPlaying: (isPlaying: boolean) => set({ isPlaying }),
     setVolume: (volume: number) => {

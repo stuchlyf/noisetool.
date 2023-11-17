@@ -8,7 +8,9 @@ export default function Page() {
 
   return (
     <>
-      <BlobGroup />
+      <div className={'flex justify-center'}>
+        <BlobGroup />
+      </div>
       <Toolbar volumeSsr={volumeSsr ? parseInt(volumeSsr) : undefined} />
     </>
   );
