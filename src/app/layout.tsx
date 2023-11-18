@@ -4,7 +4,7 @@ import Image, { type StaticImageData } from "next/image";
 import logo from "../../public/static/images/logo.svg";
 import Link from "next/link";
 import stuchlyfLogo from "../../public/static/images/stuchlyf-logo.svg";
-import { type Metadata } from "next";
+import { type Metadata, Viewport } from "next";
 import { InstallButton } from "@/components/installButton/installButton";
 import { Analytics } from "@vercel/analytics/react";
 
@@ -12,11 +12,14 @@ export type RootLayoutProps = PropsWithChildren;
 
 const APP_NAME = "noisetool.";
 
-export const metadata: Metadata = {
+export const viewport = {
+  themeColor: "#8D47E7",
+} satisfies Viewport;
+
+export const metadata = {
   title: APP_NAME,
   applicationName: APP_NAME,
   description: "An App to generate white, pink or brown noise.",
-  themeColor: "#8D47E7",
   icons: [
     {
       rel: "apple-touch-icon",
@@ -252,7 +255,7 @@ export const metadata: Metadata = {
     telephone: false,
   },
   manifest: "/manifest.json",
-};
+} satisfies Metadata;
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
