@@ -35,7 +35,7 @@ export const BlobGroup: React.FC = () => {
   );
 
   return (
-    <div className={"flex justify-center gap-4"}>
+    <div className={"flex justify-center gap-8 w-72 flex-wrap"}>
       {NOISES.map((color) => (
         <Button
           key={color}
