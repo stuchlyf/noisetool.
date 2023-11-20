@@ -1,7 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
 import { type Noise, NOISES } from "@/lib/noise/noise";
-import { Button, Tooltip } from "react-daisyui";
 import Blob from "@/components/blob";
 import { useAudioStore } from "@/store/store";
 
@@ -37,17 +36,15 @@ export const BlobGroup: React.FC = () => {
   return (
     <div className={"flex justify-center gap-8 w-72 flex-wrap"}>
       {NOISES.map((color) => (
-        <Button
+        <button
           key={color}
-          color={"ghost"}
-          shape={"circle"}
-          size={"lg"}
+          className={'btn btn-ghost btn-circle btn-lg'}
           onClick={handleBlobClickFactory(color)}
         >
-          <Tooltip message={`${color} noise`} className={"h-full w-full"}>
+          <div data-tip={`${color} noise`} className={"tooltip h-full w-full"}>
             <Blob color={color} active={color === noiseType || !noiseType} />
-          </Tooltip>
-        </Button>
+          </div>
+        </button>
       ))}
     </div>
   );

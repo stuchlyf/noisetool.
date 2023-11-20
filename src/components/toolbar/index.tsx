@@ -5,7 +5,6 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { Button, Navbar, Range, Tooltip } from "react-daisyui";
 import { IoVolumeHighOutline, IoVolumeMuteOutline } from "react-icons/io5";
 import * as Tone from "tone";
 import { useAudioStore } from "@/store/store";
@@ -68,11 +67,11 @@ export const Toolbar: React.FC<{ volumeSsr: number | undefined }> = ({
   }, [handleMuteToggleClick]);
 
   return (
-    <Navbar
-      className={"rounded-box flex w-full gap-4 bg-base-100 px-8 shadow-xl"}
+    <div
+      className={"navbar rounded-box flex w-full gap-4 bg-base-100 px-8 shadow-xl"}
     >
-      <Button shape={"square"} color={"primary"} size={"sm"}>
-        <Tooltip message={`${mute ? "unmute" : "mute"} (m)`}>
+      <button className={'btn btn-square btn-primary btn-sm'}>
+        <div className={'tooltip'} data-tip={`${mute ? "unmute" : "mute"} (m)`}>
           <label className="swap">
             <input
               type="checkbox"
@@ -82,15 +81,16 @@ export const Toolbar: React.FC<{ volumeSsr: number | undefined }> = ({
             <IoVolumeMuteOutline className={"swap-on fill-current text-xl"} />
             <IoVolumeHighOutline className={"swap-off fill-current text-xl"} />
           </label>
-        </Tooltip>
-      </Button>
-      <Range
-        color={"primary"}
+        </div>
+      </button>
+      <input
+        type={'range'}
+        className={'range range-primary w-full'}
         onChange={handleVolumeChange}
         value={volume}
         min={-60}
         max={-10}
       />
-    </Navbar>
+    </div>
   );
 };

@@ -1,6 +1,5 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
-import { Button } from "react-daisyui";
 import { type BeforeInstallPromptEvent } from "@/types/BeforeInstallPromptEvent";
 
 export const InstallButton: React.FC = () => {
@@ -26,8 +25,12 @@ export const InstallButton: React.FC = () => {
   }, [beforeInstallPrompt])
 
   return (
-    <Button onClick={handleInstallButtonClick} disabled={!beforeInstallPrompt}>
+    <button
+      onClick={handleInstallButtonClick}
+      className={`btn ${!beforeInstallPrompt ? 'btn-disabled' : ''}`}
+      disabled={!beforeInstallPrompt}
+    >
       Install
-    </Button>
+    </button>
   )
 }
