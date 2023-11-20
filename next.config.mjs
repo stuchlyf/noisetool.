@@ -14,7 +14,7 @@ const withPWA =  withPWAFactory({
   disable: env.PWA_ENABLED === 'false',
 });
 
-/** @type {import("publicRuntimeConfig").PublicRuntimeConfig} */
+/** @type {import("./src/types/publicRuntimeConfig").PublicRuntimeConfig} */
 const publicRuntimeConfig = {
   version: packageJson.version
 }
