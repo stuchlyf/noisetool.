@@ -9,6 +9,8 @@ import { InstallButton } from "@/components/installButton/installButton";
 import { Analytics } from "@vercel/analytics/react";
 import { IoGitBranchOutline } from "react-icons/io5";
 import { env } from "@/env.mjs";
+import getConfig from "next/config";
+import { PublicRuntimeConfig } from "@/types/publicRuntimeConfig";
 
 export type RootLayoutProps = PropsWithChildren;
 
@@ -259,6 +261,10 @@ export const metadata = {
   manifest: "/manifest.json",
 } satisfies Metadata;
 
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+const publicRuntimeconfig = getConfig().publicRuntimeConfig as PublicRuntimeConfig;
+
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang={"en"}>
@@ -283,7 +289,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 <div className={'tooltip'} data-tip={env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA}>
                   <span className={'flex items-center gap-1'}>
                     <IoGitBranchOutline />
-                    <span>{env.NEXT_PUBLIC_APP_VERSION}</span>
+                    <span>{publicRuntimeconfig.version}</span>
                   </span>
                 </div>
                 <div>

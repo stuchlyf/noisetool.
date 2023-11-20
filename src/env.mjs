@@ -17,7 +17,6 @@ const client = z.object(
   /** @satisfies {Record<`NEXT_PUBLIC_${string}`, import('zod').ZodType>} */ (
     {
       // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
-      NEXT_PUBLIC_APP_VERSION: z.string().min(1),
       NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA: z.string().min(1),
     }
   ),
@@ -33,7 +32,6 @@ const processEnv = {
   NODE_ENV: process.env.NODE_ENV,
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   PWA_ENABLED: process.env.PWA_ENABLED,
-  NEXT_PUBLIC_APP_VERSION: process.env.npm_package_version,
   NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA: process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA
 };
 
