@@ -7,6 +7,8 @@ import stuchlyfLogo from "../../public/static/images/stuchlyf-logo.svg";
 import { type Metadata, type Viewport } from "next";
 import { InstallButton } from "@/components/installButton/installButton";
 import { Analytics } from "@vercel/analytics/react";
+import { IoGitBranchOutline } from "react-icons/io5";
+import { env } from "@/env.mjs";
 
 export type RootLayoutProps = PropsWithChildren;
 
@@ -277,8 +279,16 @@ export default function RootLayout({ children }: RootLayoutProps) {
                   />
                 </button>
               </div>
-              <div className={"navbar-end"}>
-                <InstallButton />
+              <div className={"navbar-end flex gap-4"}>
+                <div className={'tooltip'} data-tip={env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA}>
+                  <span className={'flex items-center gap-1'}>
+                    <IoGitBranchOutline />
+                    <span>{env.NEXT_PUBLIC_APP_VERSION}</span>
+                  </span>
+                </div>
+                <div>
+                  <InstallButton />
+                </div>
               </div>
             </header>
 
