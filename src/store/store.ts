@@ -62,17 +62,29 @@ const noiseFactory = (color: Noise) => {
 };
 
 const parseCookie = (cookie: string): [string, string][] => {
-  return cookie.split(";").map((cookie) => {
-    const [key, ...value] = cookie.split("=");
-    return [key!.trim(), value.join("=")];
-  });
+  try {
+    return cookie.split(";").map((cookie) => {
+      const [key, ...value] = cookie.split("=");
+      return [key!.trim(), value.join("=")];
+    });
+  } catch(e) {
+    console.warn('There was an error while trying to read the cookies.');
+    return [];
+  }
 };
 
 export const useAudioStore = create<AudioState>((set, get) => {
-  const cookies = parseCookie(document.cookie);
-  const cookie = cookies.find(([key]) => key === "volume");
+  let volume = -40;
 
-  const volume = cookie && cookie[1] ? parseInt(cookie[1]) : -40;
+  try {
+    const cookies = parseCookie(document.cookie);
+    const cookie = cookies.find(([key]) => key === "volume");
+
+    volume = cookie?.[1] ? parseInt(cookie[1]) : -40;
+  } catch(e) {
+    console.warn('There was an error trying to read the \'volume\' cookie.', e);
+  }
+
 
   return {
     isPlaying: false,
