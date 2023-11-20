@@ -8,8 +8,8 @@
   },
   "private": true,
   "scripts": {
-    "build": "NEXT_PUBLIC_APP_VERSION=$(node -pe 'require(\"./package.json\").version') next build",
-    "dev": "NEXT_PUBLIC_APP_VERSION=$(node -pe 'require(\"./package.json\").version') next dev",
+    "build": "next build",
+    "dev": "next dev",
     "lint": "next lint",
     "start": "next start"
   },
