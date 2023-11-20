@@ -4,7 +4,7 @@ import Image, { type StaticImageData } from "next/image";
 import logo from "../../public/static/images/logo.svg";
 import Link from "next/link";
 import stuchlyfLogo from "../../public/static/images/stuchlyf-logo.svg";
-import { type Metadata, Viewport } from "next";
+import { type Metadata, type Viewport } from "next";
 import { InstallButton } from "@/components/installButton/installButton";
 import { Analytics } from "@vercel/analytics/react";
 
@@ -269,7 +269,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           >
             <header className={"navbar rounded-box bg-base-100 shadow-xl"}>
               <div className={"navbar-start"}>
-                <button className={"btn-ghost btn btn"}>
+                <button className={"btn-ghost btn"}>
                   <Image
                     src={logo as StaticImageData}
                     alt={"noisetool."}
