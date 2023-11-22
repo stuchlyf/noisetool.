@@ -7,14 +7,21 @@ await import("./src/env.mjs");
 
 import { env } from "./src/env.mjs";
 import withPWAFactory from '@ducanh2912/next-pwa';
+import packageJson from './package.json' assert { type: 'json' };
 
 const withPWA =  withPWAFactory({
   dest: 'public',
   disable: env.PWA_ENABLED === 'false',
 });
 
+/** @type {import("./src/types/publicRuntimeConfig").PublicRuntimeConfig} */
+const publicRuntimeConfig = {
+  version: packageJson.version
+}
+
 /** @type {import("next").NextConfig} */
 const config = withPWA({
+  publicRuntimeConfig,
   reactStrictMode: true,
   swcMinify: true,
   /**
