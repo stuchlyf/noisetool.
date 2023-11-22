@@ -77,7 +77,7 @@ export const useAudioStore = create<AudioState>((set, get) => {
   let volume = -40;
 
   try {
-    const cookies = parseCookie(document.cookie);
+    const cookies = typeof document === 'object' ? parseCookie(document.cookie) : [];
     const cookie = cookies.find(([key]) => key === "volume");
 
     volume = cookie?.[1] ? parseInt(cookie[1]) : -40;
