@@ -267,7 +267,7 @@ export type RootLayoutProps = Readonly<PropsWithChildren>;
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang={"en"}>
-      <body className={""}>
+      <body>
         <div className={"flex h-screen justify-center bg-wave-background"}>
           <main
             className={
