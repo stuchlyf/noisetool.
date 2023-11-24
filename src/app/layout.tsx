@@ -2,8 +2,6 @@ import React, { type PropsWithChildren } from "react";
 import "@/styles/globals.css";
 import Image, { type StaticImageData } from "next/image";
 import logo from "../../public/static/images/logo.svg";
-import Link from "next/link";
-import stuchlyfLogo from "../../public/static/images/stuchlyf-logo.svg";
 import { type Metadata, type Viewport } from "next";
 import { InstallButton } from "@/components/installButton/installButton";
 import { Analytics } from "@vercel/analytics/react";
@@ -13,6 +11,7 @@ import getConfig from "next/config";
 import { PublicRuntimeConfig } from "@/types/publicRuntimeConfig";
 
 export type RootLayoutProps = PropsWithChildren;
+import Footer from "@/components/footer";
 
 const APP_NAME = "noisetool.";
 
@@ -302,57 +301,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
           </main>
         </div>
 
-        <footer className={"flex w-full justify-center bg-[#140526] py-8"}>
-          <div>
-            <div className="footer">
-              <div>
-                <Link href={"https://stuchlyf.dev"}>
-                  <Image
-                    src={stuchlyfLogo as StaticImageData}
-                    alt={"stuchlyf.dev"}
-                    className={"w-4/5"}
-                  />
-                </Link>
-                <Link
-                  className={"link-hover link"}
-                  href={"https://stuchlyf.dev"}
-                >
-                  stuchlyf.
-                </Link>
-              </div>
-              <div>
-                <span className={"footer-title"}>other tools</span>
-                <Link
-                  className={"link-hover link"}
-                  href={"https://utils.stuchlyf.dev"}
-                >
-                  utils
-                </Link>
-              </div>
-              <div>
-                <span className={"footer-title"}>contact</span>
-                <Link
-                  className={"link-hover link"}
-                  href={"https://github.com/stuchlyf"}
-                >
-                  GitHub
-                </Link>
-                <Link
-                  className={"link-hover link"}
-                  href={"https://linkedin.com/in/stuchlyf"}
-                >
-                  LinkedIn
-                </Link>
-                <Link
-                  className={"link-hover link"}
-                  href={"mailto:stuchlyf@stuchlyf.dev"}
-                >
-                  E-Mail
-                </Link>
-              </div>
-            </div>
-          </div>
-        </footer>
+        <Footer />
+
         <Analytics />
       </body>
     </html>
