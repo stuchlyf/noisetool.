@@ -1,23 +1,21 @@
 "use client";
 import React, {
-  type ChangeEventHandler,
+  type ChangeEvent,
   useCallback,
   useEffect,
-  useState,
+  useState
 } from "react";
 import { IoVolumeHighOutline, IoVolumeMuteOutline } from "react-icons/io5";
 import * as Tone from "tone";
-import { useAudioStore } from "@/store/store";
-import unmute from "@/lib/unmute";
+import { useAudioStore } from "@/store";
+import unmute from "@/lib/noise/unmute";
 import { useCookies } from "react-cookie";
 
 export const Toolbar: React.FC<{ volumeSsr: number | undefined }> = ({
   volumeSsr,
 }) => {
-  const _vol = useAudioStore((state) => state.volume);
+  const [_vol, setVolume] = useAudioStore(state => [state.volume, state.setVolume]);
   const volume = _vol === -40 ? volumeSsr ?? -40 : _vol;
-
-  const setVolume = useAudioStore((state) => state.setVolume);
 
   const [, setCookie] = useCookies(["volume"]);
 
@@ -36,12 +34,7 @@ export const Toolbar: React.FC<{ volumeSsr: number | undefined }> = ({
     });
   }, [_vol, setCookie]);
 
-  const handleVolumeChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
-    (e) => {
-      setVolume(e.target.valueAsNumber);
-    },
-    [setVolume]
-  );
+  const handleVolumeChange = (e: ChangeEvent<HTMLInputElement>) =>setVolume(e.target.valueAsNumber);
 
   const handleMuteToggleClick = useCallback(() => {
     if (Tone.getContext().state !== "running")

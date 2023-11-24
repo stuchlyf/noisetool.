@@ -1,37 +1,15 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
-import { type Noise, NOISES } from "@/lib/noise/noise";
+import React from "react";
+import { type NoiseColor, NOISES } from "@/lib/noise";
 import Blob from "@/components/blob";
-import { useAudioStore } from "@/store/store";
+import { useAudioStore } from "@/store";
 
 export const BlobGroup: React.FC = () => {
-  const noises = useAudioStore((state) => state.noiseMap);
+  const [noise, setNoise] = useAudioStore(state => [state.noise, state.setNoise]);
 
-  const [noiseType, setNoiseType] = useState<Noise>();
-
-  useEffect(() => {
-    if (!noiseType) {
-      Object.keys(noises).forEach((color) => {
-        noises[color].stop();
-      });
-
-      return;
-    }
-
-    const noise = noises[noiseType];
-    noise.start();
-
-    return () => {
-      noise.stop();
-    };
-  }, [noises, noiseType]);
-
-  const handleBlobClickFactory = useCallback(
-    (color: (typeof NOISES)[number]) => () => {
-      setNoiseType((prev) => (prev === color ? undefined : color));
-    },
-    []
-  );
+  const handleBlobClickFactory = (color: NoiseColor) => () => {
+    setNoise(color)
+  }
 
   return (
     <div className={"flex justify-center gap-8 w-72 flex-wrap"}>
@@ -42,7 +20,7 @@ export const BlobGroup: React.FC = () => {
           onClick={handleBlobClickFactory(color)}
         >
           <div data-tip={`${color} noise`} className={"tooltip h-full w-full"}>
-            <Blob color={color} active={color === noiseType || !noiseType} />
+            <Blob color={color} active={noise && color === noise.color} />
           </div>
         </button>
       ))}

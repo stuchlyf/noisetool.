@@ -1,18 +1,9 @@
 import React, { type PropsWithChildren } from "react";
 import "@/styles/globals.css";
-import Image, { type StaticImageData } from "next/image";
-import logo from "../../public/static/images/logo.svg";
-import Link from "next/link";
-import stuchlyfLogo from "../../public/static/images/stuchlyf-logo.svg";
 import { type Metadata, type Viewport } from "next";
-import { InstallButton } from "@/components/installButton/installButton";
 import { Analytics } from "@vercel/analytics/react";
-import { IoGitBranchOutline } from "react-icons/io5";
-import { env } from "@/env.mjs";
-import getConfig from "next/config";
-import { PublicRuntimeConfig } from "@/types/publicRuntimeConfig";
-
-export type RootLayoutProps = PropsWithChildren;
+import Footer from "@/components/footer";
+import Header from "@/components/header";
 
 const APP_NAME = "noisetool.";
 
@@ -262,97 +253,25 @@ export const metadata = {
 } satisfies Metadata;
 
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-const publicRuntimeconfig = getConfig().publicRuntimeConfig as PublicRuntimeConfig;
+export type RootLayoutProps = Readonly<PropsWithChildren>;
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang={"en"}>
-      <body className={""}>
+      <body>
         <div className={"flex h-screen justify-center bg-wave-background"}>
           <main
             className={
               "container flex h-full max-w-xl flex-col items-stretch justify-between px-8 py-8 md:px-0 md:py-16"
             }
           >
-            <header className={"navbar rounded-box bg-base-100 shadow-xl"}>
-              <div className={"navbar-start"}>
-                <button className={"btn-ghost btn"}>
-                  <Image
-                    src={logo as StaticImageData}
-                    alt={"noisetool."}
-                    height={32}
-                  />
-                </button>
-              </div>
-              <div className={"navbar-end flex gap-4"}>
-                <div className={'tooltip'} data-tip={env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA}>
-                  <span className={'flex items-center gap-1'}>
-                    <IoGitBranchOutline />
-                    <span>{publicRuntimeconfig.version}</span>
-                  </span>
-                </div>
-                <div>
-                  <InstallButton />
-                </div>
-              </div>
-            </header>
-
+            <Header />
             {children}
           </main>
         </div>
 
-        <footer className={"flex w-full justify-center bg-[#140526] py-8"}>
-          <div>
-            <div className="footer">
-              <div>
-                <Link href={"https://stuchlyf.dev"}>
-                  <Image
-                    src={stuchlyfLogo as StaticImageData}
-                    alt={"stuchlyf.dev"}
-                    className={"w-4/5"}
-                  />
-                </Link>
-                <Link
-                  className={"link-hover link"}
-                  href={"https://stuchlyf.dev"}
-                >
-                  stuchlyf.
-                </Link>
-              </div>
-              <div>
-                <span className={"footer-title"}>other tools</span>
-                <Link
-                  className={"link-hover link"}
-                  href={"https://utils.stuchlyf.dev"}
-                >
-                  utils
-                </Link>
-              </div>
-              <div>
-                <span className={"footer-title"}>contact</span>
-                <Link
-                  className={"link-hover link"}
-                  href={"https://github.com/stuchlyf"}
-                >
-                  GitHub
-                </Link>
-                <Link
-                  className={"link-hover link"}
-                  href={"https://linkedin.com/in/stuchlyf"}
-                >
-                  LinkedIn
-                </Link>
-                <Link
-                  className={"link-hover link"}
-                  href={"mailto:stuchlyf@stuchlyf.dev"}
-                >
-                  E-Mail
-                </Link>
-              </div>
-            </div>
-          </div>
-        </footer>
+        <Footer />
+
         <Analytics />
       </body>
     </html>
