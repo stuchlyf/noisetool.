@@ -8,9 +8,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { IoGitBranchOutline } from "react-icons/io5";
 import { env } from "@/env.mjs";
 import getConfig from "next/config";
-import { PublicRuntimeConfig } from "@/types/publicRuntimeConfig";
-
-export type RootLayoutProps = PropsWithChildren;
+import { type PublicRuntimeConfig } from "@/types/publicRuntimeConfig";
 import Footer from "@/components/footer";
 
 const APP_NAME = "noisetool.";
@@ -263,6 +261,8 @@ export const metadata = {
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 const publicRuntimeconfig = getConfig().publicRuntimeConfig as PublicRuntimeConfig;
+
+export type RootLayoutProps = Readonly<PropsWithChildren>;
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
