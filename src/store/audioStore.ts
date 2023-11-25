@@ -10,7 +10,11 @@ export type AudioState = {
   volume: number;
   setVolume: (volume: number) => void;
 
-  noise?: {noise: Tone.Noise, color: NoiseColor};
+  noise?: {
+    noise: Tone.Noise,
+    color: NoiseColor,
+    startedAt: Date
+  };
   setNoise: (color: NoiseColor) => void;
 };
 
@@ -50,7 +54,8 @@ const useAudioStore = create<AudioState>((set, get) => ({
     const volume = get().volume;
     const noise = {
       noise: noiseFactory(color).set({volume}).start(),
-      color
+      color,
+      startedAt: new Date(Date.now()),
     }
 
     set({noise});
