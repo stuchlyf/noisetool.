@@ -284,7 +284,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <div className={'tooltip'} data-tip={env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA}>
           <span className={'flex items-center gap-1'}>
             <IoGitBranchOutline />
-            <span>{publicRuntimeConfig.version}</span>
+            {
+              env.NEXT_PUBLIC_VERCEL_ENV === 'production'
+                ? <span>{publicRuntimeConfig.version}</span>
+                : <span>{env.NEXT_PUBLIC_VERCEL_ENV.substring(0, 3)}-{publicRuntimeConfig.version}</span>
+            }
           </span>
           </div>
         </div>
