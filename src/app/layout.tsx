@@ -4,6 +4,10 @@ import { type Metadata, type Viewport } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
+import { env } from "@/env.mjs";
+import { IoGitBranchOutline } from "react-icons/io5";
+import getConfig from "next/config";
+import { type PublicRuntimeConfig } from "@/types/publicRuntimeConfig";
 
 const APP_NAME = "noisetool.";
 
@@ -252,6 +256,8 @@ export const metadata = {
   manifest: "/manifest.json",
 } satisfies Metadata;
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+const publicRuntimeConfig = getConfig().publicRuntimeConfig as PublicRuntimeConfig;
 
 export type RootLayoutProps = Readonly<PropsWithChildren>;
 
@@ -271,6 +277,15 @@ export default function RootLayout({ children }: RootLayoutProps) {
         </div>
 
         <Footer />
+
+        <div className={'fixed bottom-0 right-0 bg-base-100 px-4 py-3 rounded-tl-box shadow-xl'}>
+          <div className={'tooltip'} data-tip={env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA}>
+          <span className={'flex items-center gap-1'}>
+            <IoGitBranchOutline />
+            <span>{publicRuntimeConfig.version}</span>
+          </span>
+          </div>
+        </div>
 
         <Analytics />
       </body>
