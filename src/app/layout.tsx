@@ -280,7 +280,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
         <Footer />
 
-        <div className={'fixed bottom-0 right-0 bg-base-100 px-4 py-3 rounded-tl-box shadow-xl'}>
+        <div className={'fixed bottom-0 right-0 bg-base-300 px-4 py-3 rounded-tl-box shadow-xl'}>
           <div className={'tooltip'} data-tip={env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA}>
           <span className={'flex items-center gap-1'}>
             <IoGitBranchOutline />
