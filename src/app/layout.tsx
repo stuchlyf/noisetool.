@@ -16,7 +16,9 @@ export const viewport = {
 } satisfies Viewport;
 
 export const metadata = {
-  title: APP_NAME,
+  title: env.NEXT_PUBLIC_VERCEL_ENV === 'production'
+    ? APP_NAME
+    : `${APP_NAME} (${env.NEXT_PUBLIC_VERCEL_ENV})`,
   applicationName: APP_NAME,
   description: "An App to generate white, pink or brown noise.",
   icons: [
