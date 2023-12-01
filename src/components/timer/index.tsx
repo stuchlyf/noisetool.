@@ -51,13 +51,17 @@ export default function Timer() {
 
 export type CountdownNumberProps = Readonly<{ value?: number }>;
 
-export function CountdownNumber({ value }: CountdownNumberProps) {
+export function CountdownNumber({ value = 0 }: CountdownNumberProps) {
+  const paddedValue = useMemo(
+    () => value.toString().padStart(2, '0'),
+    [value]
+  );
+
   return (
-    <span className={'countdown font-mono text-5xl'}>
-      {/* `@ts-ignore` needs to be here, since `--value` isn't recognized as a css property. */}
-      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-      {/* @ts-ignore */}
-      <span style={{ '--value': value ?? 0 }} className={'text-base-content'} />
+    <span className={'font-mono text-5xl'}>
+      <span className={'text-base-content'}>
+        {paddedValue}
+      </span>
     </span>
   )
 }
