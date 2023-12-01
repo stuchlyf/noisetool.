@@ -2,7 +2,7 @@
 import React, { useMemo } from "react";
 import { useAudioStore } from "@/store";
 import { type Interval, intervalToDuration } from "date-fns";
-import useNow from "@/lib/useNow";
+import { useNow } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
 
 export default function Timer() {
