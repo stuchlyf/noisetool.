@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 import { useAudioStore } from "@/store";
 import { type Interval, intervalToDuration } from "date-fns";
 import useNow from "@/lib/useNow";
+import { cn } from "@/lib/utils";
 
 export default function Timer() {
   const noise = useAudioStore(state => state.noise);
@@ -29,10 +30,11 @@ export default function Timer() {
     }
   }, [noise, now]);
 
-  if (!noise) return <div>no noise</div>
-
   return (
-    <div className="grid grid-flow-col gap-5 text-center auto-cols-max text-opacity-70 opacity-70">
+    <div className={cn(
+      `grid grid-flow-col gap-5 text-center auto-cols-max text-opacity-70 select-none transition-opacity opacity-0`,
+      noise && 'opacity-70'
+    )}>
       <div className="flex flex-col">
         <CountdownNumber value={hoursActive} />hours
       </div>
